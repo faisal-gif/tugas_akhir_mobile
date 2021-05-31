@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:uts/Models/User.dart';
-
+import 'package:uts/Models/UserSql.dart';
+import 'sign_in.dart';
 class RegisterPage extends StatefulWidget {
-  final User user;
+  final UserSql user;
   RegisterPage(this.user);
   @override
   RegisterPageState createState() => RegisterPageState(this.user);
 }
 
 class RegisterPageState extends State<RegisterPage> {
-  User user;
+  UserSql user;
   RegisterPageState(this.user);
   TextEditingController userNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -57,17 +57,10 @@ class RegisterPageState extends State<RegisterPage> {
           height: 42.0,
           onPressed: () {
             //Navigator.of(context).pushNamed(Home.tag);
-            if (user == null) {
-              // tambah data
-              user = User(userNameController.text, passwordController.text,nameController.text);
-            } else {
-              // ubah data
-              user.username = userNameController.text;
-              user.password = passwordController.text;
-              user.name = nameController.text;
-            }
+              createUserWithEmailAndPassword(
+                            userNameController.text, passwordController.text);
             // kembali ke layar sebelumnya dengan membawa objek item
-            Navigator.pop(context, user);
+            Navigator.pop(context);
           },
           color: Colors.lightBlueAccent,
           child: Text('Register', style: TextStyle(color: Colors.white)),

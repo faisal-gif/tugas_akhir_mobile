@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:uts/Home.dart';
+import 'package:uts/botNav.dart';
 import 'DbHelper/DbHelper.dart';
-import 'package:uts/Models/User.dart';
+import 'package:uts/Models/UserSql.dart';
 import 'package:uts/prosesLogin/loginResponse.dart';
-import 'Models/User.dart';
+import 'Models/UserSql.dart';
 import 'package:uts/Register.dart';
+import 'sign_in.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -50,47 +52,59 @@ class _LoginPageState extends State<LoginPage> implements LoginCallBack {
       child: CircleAvatar(
         backgroundColor: Colors.transparent,
         radius: 48.0,
-        child: Image.asset('assets/Logo.png'),
+        child: Image.asset('assets/logo.png'),
+        // child: Image.asset('assets/logo.png'),
+      ),
+    );
+    final google = Hero(
+      tag: 'ico',
+      child: CircleAvatar(
+        backgroundColor: Colors.transparent,
+        radius: 18.0,
+        child: Image.asset('assets/go.png'),
         // child: Image.asset('assets/logo.png'),
       ),
     );
 
     final email = TextFormField(
       keyboardType: TextInputType.emailAddress,
-      
       controller: userNameController,
       autofocus: false,
       decoration: InputDecoration(
         hintText: 'Email',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+        prefixIcon: Icon(
+          Icons.email,
+          color: Colors.black,
+        ),
       ),
     );
 
     final password = TextFormField(
       controller: passwordController,
-      
       autofocus: false,
       obscureText: true,
       decoration: InputDecoration(
         hintText: 'Password',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+        prefixIcon: Icon(
+          Icons.lock,
+          color: Colors.black,
+        ),
       ),
     );
     _ctx = context;
     final loginButton = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: Material(
-        shadowColor: Colors.lightBlueAccent.shade100,
-        elevation: 5.0,
-        child: MaterialButton(
-          minWidth: 200.0,
-          height: 42.0,
-          onPressed: _submit,
-          color: Colors.lightBlueAccent,
-          child: Text('Log In', style: TextStyle(color: Colors.white)),
-        ),
+      child: FlatButton(
+        minWidth: 200.0,
+        height: 42.0,
+        onPressed: _submit,
+        color: Colors.lightBlueAccent,
+        child: Text('Log In', style: TextStyle(color: Colors.white)),
+        shape: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
     );
 
@@ -123,7 +137,29 @@ class _LoginPageState extends State<LoginPage> implements LoginCallBack {
             password,
             SizedBox(height: 24.0),
             loginButton,
-            forgotLabel
+            Container(
+              alignment: Alignment.center,
+              child: Text("- OR -"),
+            ),
+            SizedBox(height: 24.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    child: IconButton(
+                  icon: Image.asset('assets/go.png'),
+                  iconSize: 30,
+                  onPressed: () {
+                    signInWithGoogle().then((result) {
+                      if (result != null) {
+                        Navigator.pushNamed(context, BotNav.tag,arguments:result);
+                      }
+                    });
+                  },
+                )),
+              ],
+            ),
+            forgotLabel,
           ],
         ),
       ),
@@ -140,10 +176,10 @@ class _LoginPageState extends State<LoginPage> implements LoginCallBack {
   }
 
   @override
-  void onLoginSuccess(User user) async {
+  void onLoginSuccess(UserSql user) async {
     // TODO: implement onLoginSuccess
     if (user != null) {
-      Navigator.pushNamed(context,Home.tag,arguments:user);
+      Navigator.pushNamed(context, BotNav.tag, arguments: user);
     } else {
       // TODO: implement onLoginSuccess
       _showSnackBar("Login Gagal, Silahkan Periksa Login Anda");
@@ -154,7 +190,7 @@ class _LoginPageState extends State<LoginPage> implements LoginCallBack {
   }
 }
 
-Future<User> navigateToRegister(BuildContext context, User user) async {
+Future<UserSql> navigateToRegister(BuildContext context, UserSql user) async {
   var result = await Navigator.push(context,
       MaterialPageRoute(builder: (BuildContext context) {
     return RegisterPage(user);

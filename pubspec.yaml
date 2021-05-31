@@ -25,7 +25,10 @@ dependencies:
     sdk: flutter
   sqflite: any
   path_provider: any
-  
+  firebase_auth: ^1.0.0 
+  google_sign_in: ^4.5.3
+  firebase_core: ^1.0.1
+  cloud_firestore: ^1.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -46,7 +49,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets: 
-    - assets/Logo.png  
+    - assets/logo.png
+    - assets/go.png   
    
   # To add assets to your application, add an assets section, like this:
   # assets:

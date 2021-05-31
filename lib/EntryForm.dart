@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-
+import 'FireDatabase/Database.dart';
 import 'Models/Item.dart';
 
 
 class EntryForm extends StatefulWidget {
   final Item item;
-  final int id;
+  final String id;
   EntryForm(this.item,this.id);
   @override
   EntryFormState createState() => EntryFormState(this.item,id);
@@ -14,7 +14,7 @@ class EntryForm extends StatefulWidget {
 //class controller
 class EntryFormState extends State<EntryForm> {
   Item item;
-  int id;
+  String id;
   EntryFormState(this.item,this.id);
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
@@ -106,6 +106,11 @@ class EntryFormState extends State<EntryForm> {
                           textScaleFactor: 1.5,
                         ),
                         onPressed: () {
+                          DatabaseF.addItem(
+                             
+                                name: nameController.text,
+                                price: int.parse(priceController.text),
+                                stock : int.parse(stockController.text));
                           if (item == null) {
                             // tambah data
                             item = Item(

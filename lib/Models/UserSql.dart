@@ -1,9 +1,10 @@
-class User {
+class UserSql {
   int _id;
   String _username;
   String _password;
   String _name;
 
+  set id(int value) => this._id = value;
   int get id => _id;
   String get username => this._username;
   set username(String value) => this._username = value;
@@ -13,9 +14,9 @@ class User {
   set name(String value) => this._name = value;
 
 // konstruktor versi 1
-  User(this._username, this._password, this._name);
+  UserSql(this._username, this._password, this._name);
 // konstruktor versi 2: konversi dari Map ke Item
-  User.fromMapUser(Map<String, dynamic> map) {
+  UserSql.fromMapUser(Map<String, dynamic> map) {
     this._id = map['id'];
     this._username = map['username'];
     this._password = map['password'];

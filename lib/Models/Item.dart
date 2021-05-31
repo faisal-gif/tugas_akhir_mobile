@@ -3,7 +3,7 @@ class Item {
   String _name;
   int _price;
   int _stock;
-  int _idUser;
+  String _idUser;
   int get id => _id;
   String get name => this._name;
   set name(String value) => this._name = value;

@@ -1,8 +1,8 @@
-import 'package:uts/Models/User.dart';
+import 'package:uts/Models/UserSql.dart';
 import 'package:uts/prosesLogin/loginRequest.dart';
 
 abstract class LoginCallBack {
-  void onLoginSuccess(User user);
+  void onLoginSuccess(UserSql user);
   void onLoginError(String error);
 }
 class LoginResponse {
