@@ -44,9 +44,10 @@ Future<User> signInWithGoogle() async {
 
 Future<void> signOutGoogle() async {
   await googleSignIn.signOut();
+  await FirebaseAuth.instance.signOut();
   print("User Signed Out");
 }
-Future<String> signInWithEmailAndPassword(String username, String pass) async {
+Future<User> signInWithEmailAndPassword(String username, String pass) async {
   await Firebase.initializeApp();
 
   UserCredential userAuth = (await _auth.signInWithEmailAndPassword(email: username, password: pass));
@@ -57,8 +58,7 @@ Future<String> signInWithEmailAndPassword(String username, String pass) async {
     assert(user.email != null);
     
     name = user.email;
-    email = user.email;
-    imageUrl = user.email;
+    id = user.uid;
     // Only taking the first part of the name, i.e., First Name
     if (name.contains("@")) {
       name = name.substring(0, name.indexOf("@"));
@@ -68,7 +68,7 @@ Future<String> signInWithEmailAndPassword(String username, String pass) async {
     final User currentUser = _auth.currentUser;
     assert(user.uid == currentUser.uid);
     print('signInWithGoogle succeeded: $user');
-    return '$user';
+    return user;
   }
   return null;
    
@@ -78,9 +78,8 @@ Future<User> getCurrentUser() async {
 User user = _auth.currentUser;
 if (user != null) {
   return user;
-} else {
-  return null;
-}
+} 
+return null;
 }
 Future<String> createUserWithEmailAndPassword(String username, String pass) async {
   await Firebase.initializeApp();

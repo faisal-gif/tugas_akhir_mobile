@@ -43,14 +43,14 @@ class routePageState extends State<routePage>
     super.initState();
     print("Init state");
     getCurrentUser().then((value){
-      if(value == 'null')
+      if(value.uid == 'null')
       {
         print(isLoggedin);
         setState(() {
           isLoggedin = false;
         });
       }
-      else if(value !=null)
+      else if(value.uid !=null)
       {
         us= value;
         setState(() {

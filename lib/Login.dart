@@ -101,7 +101,15 @@ class _LoginPageState extends State<LoginPage> implements LoginCallBack {
       child: FlatButton(
         minWidth: 200.0,
         height: 42.0,
-        onPressed: _submit,
+        onPressed: () async {
+          signInWithEmailAndPassword(
+                  userNameController.text, passwordController.text)
+              .then((result) {
+            if (result != null) {
+              Navigator.pushNamed(context, BotNav.tag, arguments: result);
+            }
+          });
+        },
         color: Colors.lightBlueAccent,
         child: Text('Log In', style: TextStyle(color: Colors.white)),
         shape: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
@@ -152,7 +160,8 @@ class _LoginPageState extends State<LoginPage> implements LoginCallBack {
                   onPressed: () {
                     signInWithGoogle().then((result) {
                       if (result != null) {
-                        Navigator.pushNamed(context, BotNav.tag,arguments:result);
+                        Navigator.pushNamed(context, BotNav.tag,
+                            arguments: result);
                       }
                     });
                   },
@@ -179,7 +188,6 @@ class _LoginPageState extends State<LoginPage> implements LoginCallBack {
   void onLoginSuccess(UserSql user) async {
     // TODO: implement onLoginSuccess
     if (user != null) {
-      Navigator.pushNamed(context, BotNav.tag, arguments: user);
     } else {
       // TODO: implement onLoginSuccess
       _showSnackBar("Login Gagal, Silahkan Periksa Login Anda");

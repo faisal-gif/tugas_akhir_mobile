@@ -5,6 +5,7 @@ import 'Home.dart';
 import 'Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'sign_in.dart';
+import 'jadwal.dart';
 
 class BotNav extends StatefulWidget {
   @override
@@ -28,7 +29,7 @@ class BotNavState extends State<BotNav> {
     } else {
       a = us.uid;
     }
-    final List<Widget> _children = [Home(a), LoginPage()];
+    final List<Widget> _children = [Home(a), Jadwal(a)];
     //int id = userArgs.id;
 
     @override
