@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:uts/Models/Item.dart';
+
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final CollectionReference _mainCollection = _firestore.collection('notes');
 
@@ -48,9 +48,7 @@ class DatabaseF {
         .catchError((e) => print(e));
   }
 
-  Stream<QuerySnapshot> readItems(
-    String uid
-  ) {
+  Stream<QuerySnapshot> readItems(String uid) {
     CollectionReference notesItemCollection =
         _mainCollection.doc(uid).collection('items');
 
@@ -70,7 +68,7 @@ class DatabaseF {
         .catchError((e) => print(e));
   }
 
-   static Future<void> addNote({
+  static Future<void> addNote({
     String i,
     String barang,
     String tanggal,
@@ -81,7 +79,6 @@ class DatabaseF {
     Map<String, dynamic> data = <String, dynamic>{
       "barang": barang,
       "tanggal": tanggal,
-      
     };
 
     await documentReferencer
@@ -90,7 +87,7 @@ class DatabaseF {
         .catchError((e) => print(e));
   }
 
-static Future<void> updateJadwal({
+  static Future<void> updateJadwal({
     String uid,
     String barang,
     String tanggal,
@@ -100,7 +97,7 @@ static Future<void> updateJadwal({
         _mainCollection.doc(uid).collection('jadwal').doc(docId);
 
     Map<String, dynamic> data = <String, dynamic>{
-       "barang": barang,
+      "barang": barang,
       "tanggal": tanggal,
     };
 
@@ -109,15 +106,15 @@ static Future<void> updateJadwal({
         .whenComplete(() => print("Note item updated in the database"))
         .catchError((e) => print(e));
   }
-  Stream<QuerySnapshot> readJadwal(
-    String uid
-  ) {
+
+  Stream<QuerySnapshot> readJadwal(String uid) {
     CollectionReference notesItemCollection =
         _mainCollection.doc(uid).collection('jadwal');
 
     return notesItemCollection.snapshots();
   }
-   static Future<void> deleteJadwal({
+
+  static Future<void> deleteJadwal({
     String uid,
     String docId,
   }) async {
@@ -130,4 +127,45 @@ static Future<void> updateJadwal({
         .catchError((e) => print(e));
   }
 
+  static Future<void> addUang({
+    String i,
+    int uang,
+  }) async {
+    DocumentReference documentReferencer =
+        _mainCollection.doc(i).collection('keuangan').doc();
+
+    Map<String, dynamic> data = <String, dynamic>{
+      "uang": uang,
+    };
+
+    await documentReferencer
+        .set(data)
+        .whenComplete(() => print("Note item added to the database"))
+        .catchError((e) => print(e));
+  }
+
+  static Future<void> updateUang({
+    String uid,
+     int uang,
+    String docId,
+  }) async {
+    DocumentReference documentReferencer =
+        _mainCollection.doc(uid).collection('keuangan').doc(docId);
+
+    Map<String, dynamic> data = <String, dynamic>{
+      "uang": uang,
+    };
+
+    await documentReferencer
+        .update(data)
+        .whenComplete(() => print("Note item updated in the database"))
+        .catchError((e) => print(e));
+  }
+
+  Stream<QuerySnapshot> readUang(String uid) {
+    CollectionReference notesItemCollection =
+        _mainCollection.doc(uid).collection('keuangan');
+
+    return notesItemCollection.snapshots();
+  }
 }

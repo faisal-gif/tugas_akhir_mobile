@@ -50,7 +50,7 @@ class routePageState extends State<routePage>
           isLoggedin = false;
         });
       }
-      else if(value.uid !=null)
+      else if(value !=null)
       {
         us= value;
         setState(() {

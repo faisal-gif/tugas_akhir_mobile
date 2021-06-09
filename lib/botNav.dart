@@ -6,6 +6,7 @@ import 'Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'sign_in.dart';
 import 'jadwal.dart';
+import 'profile.dart';
 
 class BotNav extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class BotNav extends StatefulWidget {
 String a;
 int _currentIndex = 0;
 String id;
-final List<Widget> _children = [Home(id), LoginPage()];
+User d;
 
 class BotNavState extends State<BotNav> {
   Widget build(BuildContext context) {
@@ -26,10 +27,12 @@ class BotNavState extends State<BotNav> {
     final User userArgs = ModalRoute.of(context).settings.arguments;
     if (userArgs != null) {
       a = userArgs.uid;
+      d = userArgs;
     } else {
       a = us.uid;
+      d = us;
     }
-    final List<Widget> _children = [Home(a), Jadwal(a)];
+    final List<Widget> _children = [Home(a), Jadwal(a),Profile(d)];
     //int id = userArgs.id;
 
     @override
@@ -84,6 +87,10 @@ class BotNavState extends State<BotNav> {
             new BottomNavigationBarItem(
               icon: Icon(Icons.date_range),
               title: Text('Jadwal'),
+            ),
+            new BottomNavigationBarItem(
+              icon: Icon(Icons.account_balance),
+              title: Text('Profile'),
             ),
           ]),
     );
